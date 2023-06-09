@@ -1,0 +1,57 @@
+[
+  {
+    "description": "Equipo 3",
+    "components": [
+      {
+        "description": "componente 1",
+        "pins": [
+          {
+            "comunicationType": "OUT",
+            "signalType": "DIGITAL",
+            "pinNumber": 1
+          },
+          {
+            "comunicationType": "IN",
+            "signalType": "ANALOG",
+            "pinNumber": 2
+          }
+        ]
+      },
+      {
+        "description": "componente 2",
+        "pins": [
+          {
+            "comunicationType": "IN",
+            "signalType": "DIGITAL",
+            "pinNumber": 3
+          },
+          {
+            "comunicationType": "IN",
+            "signalType": "ANALOG",
+            "pinNumber": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "description": "Equipo 4",
+    "components": [
+      {
+        "description": "componente 1",
+        "pins": [
+          {
+            "comunicationType": "OUT",
+            "signalType": "DIGITAL",
+            "pinNumber": 1
+          },
+          {
+            "comunicationType": "IN",
+            "signalType": "ANALOG",
+            "pinNumber": 2
+          }
+        ]
+      }
+    ]
+  }
+]

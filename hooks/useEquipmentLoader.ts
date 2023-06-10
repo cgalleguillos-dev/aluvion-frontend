@@ -1,21 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
-interface BaseEquipment {
-  description: string;
-  components: Component[];
-}
-
-interface Component {
-  description: string;
-  pins: Pin[];
-}
-
-interface Pin {
-  comunicationType: string;
-  signalType: string;
-  pinNumber: number;
-}
+import { BaseEquipment } from '@/config/interfaces';
 
 const useEquipmentLoader = () => {
   const [file, setFile] = useState<File | null>(null);

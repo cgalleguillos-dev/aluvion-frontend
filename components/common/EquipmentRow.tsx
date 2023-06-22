@@ -4,15 +4,15 @@ import ComponentRow from "./ComponentRow";
 interface EquipmentRowProps {
   equipment: BaseEquipment;
   index: number;
-  expandedComponents: number[];
-  toggleExpandedComponent: (index: number) => void;
+  expandedArduinos: number[];
+  toggleExpandedArduino: (index: number) => void;
 }
 
 const EquipmentRow: React.FC<EquipmentRowProps> = ({
   equipment,
   index,
-  expandedComponents,
-  toggleExpandedComponent,
+  expandedArduinos,
+  toggleExpandedArduino
 }) => {
   return (
     <tr key={index}>
@@ -21,33 +21,33 @@ const EquipmentRow: React.FC<EquipmentRowProps> = ({
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900 dark:text-gray-400">
-          Componentes: {equipment.components?.length}{" "}
-          {expandedComponents.includes(index) ? (
+          Arduinos: {equipment.arduinos?.length}{" "}
+          {expandedArduinos.includes(index) ? (
             <button
               className="text-blue-500 hover:underline"
-              onClick={() => toggleExpandedComponent(index)}
+              onClick={() => toggleExpandedArduino(index)}
             >
               (ver menos)
             </button>
           ) : (
             <button
               className="text-blue-500 hover:underline"
-              onClick={() => toggleExpandedComponent(index)}
+              onClick={() => toggleExpandedArduino(index)}
             >
               (ver más)
             </button>
           )}
         </div>
-        {expandedComponents.includes(index) && (
+        {expandedArduinos.includes(index) && (
           <div className="mt-2">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
-                {equipment.components?.map((component, componentIndex) => (
+                {equipment.arduinos?.map((arduino, arduinoIndex) => (
                   <ComponentRow
-                    key={componentIndex}
-                    component={component}
+                    key={arduinoIndex}
+                    arduino={arduino}
                     index={index}
-                    expandedComponents={expandedComponents}
+                    expandedArduinos={expandedArduinos}
                   />
                 ))}
               </tbody>

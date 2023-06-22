@@ -1,30 +1,36 @@
-import { Component, Pin } from "@/config/interfaces";
+import { Arduino, Component, Pin } from "@/config/interfaces";
 import PinRow from "./PinRow";
 
 interface ComponentRowProps {
-  component: Component;
+  arduino: Arduino;
   index: number;
-  expandedComponents: number[];
+  expandedArduinos: number[];
 }
 
 const ComponentRow: React.FC<ComponentRowProps> = ({
-  component,
+  arduino,
   index,
-  expandedComponents,
+  expandedArduinos,
 }) => {
   return (
     <tr key={index}>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900 dark:text-gray-400">
-          {component.description}
+          {arduino.description}
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        {expandedComponents.includes(index) && (
+        {expandedArduinos.includes(index) && (
           <div className="mt-2">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-gray-800">
                 <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400"
+                  >
+                    Component
+                  </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400"
@@ -46,9 +52,24 @@ const ComponentRow: React.FC<ComponentRowProps> = ({
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
-                {component.pins.map((pin, pinIndex) => (
+                {
+                  arduino.components.map((component, index) => {
+                    return (
+                      <>
+                        {
+                          component.pins.map((pin, pinIndex) => {
+                            return (
+                              <PinRow keyPin={pinIndex} pin={pin} componentDescription={component.description} />
+                            )
+                          })
+                        }
+                      </>
+                    )
+                  })
+                }
+                {/* {arduino.pins.map((pin, pinIndex) => (
                   <PinRow keyPin={pinIndex} pin={pin} />
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>

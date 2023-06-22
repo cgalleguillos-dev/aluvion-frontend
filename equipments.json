@@ -1,12 +1,92 @@
 [
   {
-    "description": "Equipo 3",
+    "description": "Equipo Ejemplo 1",
     "arduinos": [
       {
         "description": "Arduino 1",
         "components": [
           {
-            "description": "componente 1",
+            "description": "Valvula 1",
+            "typeComponent": "Valve",
+            "components": [
+              {
+                "description": "Motor 1",
+                "typeComponent": "Motor",
+                "pins": [
+                  {
+                    "comunicationType": "OUT",
+                    "signalType": "DIGITAL",
+                    "pinNumber": 1
+                  }
+                ]
+              }
+            ],
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 3
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 4
+              }
+            ]
+          },
+          {
+            "description": "Valvula 2",
+            "typeComponent": "Valve",
+            "components": [
+              {
+                "description": "Motor 1",
+                "typeComponent": "Motor",
+                "pins": [
+                  {
+                    "comunicationType": "OUT",
+                    "signalType": "DIGITAL",
+                    "pinNumber": 1
+                  }
+                ]
+              }
+            ],
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 3
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 4
+              }
+            ]
+          },
+          {
+            "description": "componente 2",
+            "typeComponent": "Pressure",
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 2
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "description": "Arduino 2",
+        "components": [
+          {
+            "description": "componente simple 1",
+            "typeComponent": "Pressure",
             "pins": [
               {
                 "comunicationType": "OUT",
@@ -21,7 +101,37 @@
             ]
           },
           {
-            "description": "componente 2",
+            "description": "componente simple 2",
+            "typeComponent": "Pressure",
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 3
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 4
+              }
+            ]
+          },
+          {
+            "description": "Valvula 1",
+            "typeComponent": "Valve",
+            "components": [
+              {
+                "description": "Motor 1",
+                "typeComponent": "Motor",
+                "pins": [
+                  {
+                    "comunicationType": "OUT",
+                    "signalType": "DIGITAL",
+                    "pinNumber": 1
+                  }
+                ]
+              }
+            ],
             "pins": [
               {
                 "comunicationType": "IN",
@@ -40,23 +150,142 @@
     ]
   },
   {
-    "description": "Equipo 4",
+    "description": "Equipo Ejemplo 2",
     "arduinos": [
       {
         "description": "Arduino 1",
         "components": [
           {
-            "description": "componente 1",
+            "description": "componente simple 1",
+            "typeComponent": "Pressure",
             "pins": [
               {
-                "comunicationType": "OUT",
+                "comunicationType": "IN",
                 "signalType": "DIGITAL",
-                "pinNumber": 1
+                "pinNumber": 3
               },
               {
                 "comunicationType": "IN",
                 "signalType": "ANALOG",
-                "pinNumber": 2
+                "pinNumber": 4
+              }
+            ]
+          },
+          {
+            "description": "componente simple 2",
+            "typeComponent": "Pressure",
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 3
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 4
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "description": "Equipo Ejemplo 3",
+    "arduinos": [
+      {
+        "description": "Arduino 1",
+        "components": [
+          {
+            "description": "Valvula 1",
+            "typeComponent": "Valve",
+            "components": [
+              {
+                "description": "Motor 1",
+                "typeComponent": "Motor",
+                "pins": [
+                  {
+                    "comunicationType": "OUT",
+                    "signalType": "DIGITAL",
+                    "pinNumber": 1
+                  }
+                ]
+              }
+            ],
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 3
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 4
+              }
+            ]
+          },
+          {
+            "description": "Valvula 2",
+            "typeComponent": "Valve",
+            "components": [
+              {
+                "description": "Motor 1",
+                "typeComponent": "Motor",
+                "pins": [
+                  {
+                    "comunicationType": "OUT",
+                    "signalType": "DIGITAL",
+                    "pinNumber": 1
+                  }
+                ]
+              }
+            ],
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 3
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "description": "Arduino 2",
+        "components": [
+          {
+            "description": "Valvula 1",
+            "typeComponent": "Valve",
+            "components": [
+              {
+                "description": "Motor 1",
+                "typeComponent": "Motor",
+                "pins": [
+                  {
+                    "comunicationType": "OUT",
+                    "signalType": "DIGITAL",
+                    "pinNumber": 1
+                  }
+                ]
+              }
+            ],
+            "pins": [
+              {
+                "comunicationType": "IN",
+                "signalType": "DIGITAL",
+                "pinNumber": 3
+              },
+              {
+                "comunicationType": "IN",
+                "signalType": "ANALOG",
+                "pinNumber": 4
               }
             ]
           }

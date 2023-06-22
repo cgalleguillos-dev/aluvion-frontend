@@ -8,13 +8,13 @@ interface ShowEquipmentsTableProps {
 }
 
 const ShowEquipmentsTable: React.FC<ShowEquipmentsTableProps> = ({ equipments }) => {
-  const [expandedComponents, setExpandedComponents] = useState<number[]>([]);
+  const [expandedArduinos, setExpandedArduinos] = useState<number[]>([]);
 
-  const toggleExpandedComponent = (index: number) => {
-    if (expandedComponents.includes(index)) {
-      setExpandedComponents(expandedComponents.filter((item) => item !== index));
+  const toggleExpandedArduino = (index: number) => {
+    if (expandedArduinos.includes(index)) {
+      setExpandedArduinos(expandedArduinos.filter((item) => item !== index));
     } else {
-      setExpandedComponents([...expandedComponents, index]);
+      setExpandedArduinos([...expandedArduinos, index]);
     }
   };
 
@@ -31,13 +31,13 @@ const ShowEquipmentsTable: React.FC<ShowEquipmentsTableProps> = ({ equipments })
                     scope="col"
                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400"
                   >
-                    Description
+                    Descripción
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400"
                   >
-                    Components
+                    Arduinos
                   </th>
                 </tr>
               </thead>
@@ -47,8 +47,8 @@ const ShowEquipmentsTable: React.FC<ShowEquipmentsTableProps> = ({ equipments })
                     key={index}
                     equipment={equipment}
                     index={index}
-                    expandedComponents={expandedComponents}
-                    toggleExpandedComponent={toggleExpandedComponent}
+                    expandedArduinos={expandedArduinos}
+                    toggleExpandedArduino={toggleExpandedArduino}
                   />
                 ))}
               </tbody>

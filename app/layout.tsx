@@ -14,8 +14,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <html lang="en"
+      className="container
+        mx-auto  w-full flex flex-col h-screen
+      "
+    >
+      <body className="h-full antialiased text-gray-900 bg-gray-100 dark:bg-gray-900 dark:text-gray-100 font-sans" >
+        {children}</body >
+    </html >
   )
 }

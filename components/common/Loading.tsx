@@ -1,7 +1,7 @@
 const Loading = () => {
   return <>
     <div
-      className='h-screen w-screen absolute top-0 left-0 bg-gray-900 bg-opacity-80 flex items-center justify-center'
+      className='absolute top-0 left-0 flex items-center justify-center w-screen h-screen bg-gray-900 bg-opacity-80'
     >
       <div role="status" className='flex flex-col items-center justify-center'>
         <svg aria-hidden="true"
@@ -16,7 +16,7 @@ const Loading = () => {
         </svg>
         <span className="sr-only">Cargando...</span>
         <p
-          className="text-2xl text-gray-200 font-bold animate-pulse"
+          className="text-2xl font-bold text-gray-200 animate-pulse"
         >
           Cargando...
         </p>

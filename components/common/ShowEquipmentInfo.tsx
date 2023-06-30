@@ -2,17 +2,18 @@ import { Equipment } from '@/config/interfaces';
 import React from 'react'
 import CustomButton from './CustomButton';
 import Loading from './Loading';
+import { CustomCloseButton } from './CustomCloseButton';
 
 
 interface Props {
   equipment: Equipment;
-  setShowInfoEquipment: (showInfoEquipment: boolean) => void;
+  handleHidePopup: () => void;
   handleDeleteEquipment: () => void;
   loading: boolean;
 }
 export const ShowEquipmentInfo: React.FC<Props> = ({
   equipment,
-  setShowInfoEquipment,
+  handleHidePopup,
   handleDeleteEquipment,
   loading
 }) => {
@@ -28,15 +29,7 @@ export const ShowEquipmentInfo: React.FC<Props> = ({
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <div className="">
                   <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-400">{equipment?.description}</h3>
-                  <button
-                    className="absolute top-0 right-0 mt-4 mr-4"
-                    onClick={() => setShowInfoEquipment(false)}
-                  >
-                    <svg className="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-
+                  <CustomCloseButton handleHidePopup={handleHidePopup} />
                 </div>
                 <div className="mt-2">
                   <table className='min-w-full divide-y divide-gray-200 dark:divide-gray-700'>
@@ -61,7 +54,7 @@ export const ShowEquipmentInfo: React.FC<Props> = ({
                             <div className="text-sm text-gray-900 dark:text-gray-400">{component.description}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900 dark:text-gray-400">{component.arduino.description}</div>
+                            <div className="text-sm text-gray-900 dark:text-gray-400">{component.arduino?.description}</div>
                           </td>
                         </tr>
                       ))}
@@ -71,7 +64,7 @@ export const ShowEquipmentInfo: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          <div className="px-4 py-3 flex flex-row justify-between mt-4 mx-4">
+          <div className="flex flex-row justify-between px-4 py-3 mx-4 mt-4">
             <CustomButton
               description="Desactivar"
               onClick={handleDeleteEquipment}

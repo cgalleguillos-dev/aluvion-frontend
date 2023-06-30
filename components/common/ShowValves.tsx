@@ -6,11 +6,11 @@ interface Props {
   handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export const ShowValves: React.FC<Props> = ({ arduino, handleCheckboxChange }) => {
-  const valves: ComposeComponent[] = arduino.composeComponents.filter((composeComponent) => composeComponent.typeComponent.description === 'Valve');
+  const valves: ComposeComponent[] = arduino!.composeComponents.filter((composeComponent) => composeComponent.typeComponent.description === 'Valve');
   return (
     <>
       {
-        valves.map((valve) => (
+        valves?.map((valve) => (
           <div key={valve.id} className="flex items-center space-x-2">
             <input
               id={valve.id}

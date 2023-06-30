@@ -6,21 +6,36 @@ import { CustomButton } from './common';
 import { LIMIT_EQUIPMENT_QUERY } from '@/constants';
 import Loading from './common/Loading';
 import { ShowEquipmentInfo } from './common/ShowEquipmentInfo';
-import useEquipmentFetch from '@/hooks/useEquipmentFetch';
+import { useEquipmentFetch, useShowPopup } from '@/hooks';
+import { useEquipmentContext } from '@/context';
 
 
 interface Props {
-  equipments: Equipment[];
-  baseEquipments: BaseEquipment[];
-  numberTotalEquipments: number;
+  equipmentsAux: Equipment[];
+  baseEquipmentsAux: BaseEquipment[];
+  numberTotalEquipmentsAux: number;
 }
-export const EquipmentView: React.FC<Props> = ({ equipments, baseEquipments, numberTotalEquipments }) => {
-  const [selectedEquipment, setSelectedEquipment] = useState<Equipment>();
-  const [showInfoEquipment, setShowInfoEquipment] = useState<boolean>(false);
-  const [filteredEquipments, setFilteredEquipments] = useState<Equipment[]>(equipments);
+export const EquipmentView: React.FC<Props> = ({ equipmentsAux, baseEquipmentsAux, numberTotalEquipmentsAux }) => {
+  const {
+    setEquipments,
+    setBaseEquipments,
+    numberTotalEquipments,
+    setNumberTotalEquipments,
+    selectedEquipment,
+    setSelectedEquipment,
+    filteredEquipments,
+    setFilteredEquipments
+  } = useEquipmentContext();
+  setEquipments(equipmentsAux);
+  setBaseEquipments(baseEquipmentsAux);
+  setNumberTotalEquipments(numberTotalEquipmentsAux);
+
   const [currentEquipments, setCurrentEquipments] = useState<Equipment[]>([]);
   const [page, setPage] = useState<number>(1);
   const { loading, deleteEquipment, getEquipmentsByPage, error } = useEquipmentFetch();
+  const { showPopup, handleShowPopup, handleHidePopup } = useShowPopup();
+
+
   useEffect(() => {
     const getEquipments = async () => {
       const equipmentsData = await getEquipmentsByPage(page)
@@ -33,7 +48,7 @@ export const EquipmentView: React.FC<Props> = ({ equipments, baseEquipments, num
 
   const handleEquipmentClick = (equipment: Equipment) => {
     setSelectedEquipment(equipment);
-    setShowInfoEquipment(true);
+    handleShowPopup();
   }
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +61,7 @@ export const EquipmentView: React.FC<Props> = ({ equipments, baseEquipments, num
     await deleteEquipment(selectedEquipment!.id);
     const newEquipments = currentEquipments.filter(equipment => equipment.id !== selectedEquipment?.id);
     setFilteredEquipments(newEquipments);
-    setShowInfoEquipment(false);
+    handleHidePopup();
   }
 
   const incrementPage = () => {
@@ -75,22 +90,19 @@ export const EquipmentView: React.FC<Props> = ({ equipments, baseEquipments, num
   return (
     <>
       {
-        error && <div className="text-red-500 text-center">{error}</div>
+        error && <div className="text-center text-red-500">{error}</div>
       }
-      <div className="flex flex-col mt-4">
+      <div className="w-screen h-screen mx-10 mt-4">
         <div className="sm:-mx-6 lg:-mx-10">
           <div className="inline-block w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="border-b border-gray-200 dark:border-gray-700 shadow sm:rounded-lg ">
-              <div className="divide-y divide-gray-200 dark:divide-gray-700
-              
-              ">
-
+            <div className="border-b border-gray-200 shadow dark:border-gray-700 sm:rounded-lg ">
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 <div className="flex flex-row justify-between bg-gray-50">
-                  <div className="flex flex-row justify-between items-center">
+                  <div className="flex flex-row items-center justify-between">
                     <div className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
                       Descripción
                     </div>
-                    <input type="text" placeholder="Buscar equipo" className="w-96 px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400"
+                    <input type="text" placeholder="Buscar equipo" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-96 dark:text-gray-400"
                       onChange={handleFilterChange}
                     />
                   </div>
@@ -111,19 +123,15 @@ export const EquipmentView: React.FC<Props> = ({ equipments, baseEquipments, num
             </div>
             <div className="flex flex-row justify-center mt-4">
               <div className="inline-flex rounded-md shadow">
-                <button type="button" className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-                  disabled:opacity-50
-                "
+                <button type="button" className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-700 dark:text-gray-200 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 "
                   onClick={decrementPage}
                   disabled={disablePreviousButton()}
                 >
                   Anterior
                 </button>
               </div>
-              <div className="inline-flex rounded-md shadow ml-4">
-                <button type="button" className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-                  disabled:opacity-50
-                "
+              <div className="inline-flex ml-4 rounded-md shadow">
+                <button type="button" className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-700 dark:text-gray-200 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 "
                   onClick={incrementPage}
                   disabled={disableNextButton()}
                 >
@@ -139,16 +147,13 @@ export const EquipmentView: React.FC<Props> = ({ equipments, baseEquipments, num
             description="Volver"
             onClick={() => { }}
           />
-          <NewEquipmentForm baseEquipments={baseEquipments}
-            setFilteredEquipments={setFilteredEquipments}
-            filteredEquipments={filteredEquipments}
-          />
+          <NewEquipmentForm />
         </div>
         {
-          showInfoEquipment && (
+          showPopup && (
             <ShowEquipmentInfo
               equipment={selectedEquipment!}
-              setShowInfoEquipment={setShowInfoEquipment}
+              handleHidePopup={handleHidePopup}
               handleDeleteEquipment={handleDeleteEquipment}
               loading={loading}
             />

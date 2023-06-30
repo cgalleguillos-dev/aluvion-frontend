@@ -1,0 +1,62 @@
+// Ejemplo de simulación A en Equipo 1, conectado a Equipo Ejemplo 1 (base) y solo utilizando
+// la válvula 1
+[
+  {
+    "type": "setup",
+    "equipment": "Equipo Ejemplo 1",
+    "arduino": "Arduino 1",
+    "components": [
+      {
+        "description": "Válvula 1",
+        "pins": [
+          {
+            "pin": 3,
+            "mode": "OUTPUT"
+          },
+          {
+            "pin": 4,
+            "mode": "OUTPUT"
+          }
+        ]
+      },
+      {
+        "description": "Motor 1",
+        "pins": [
+          {
+            "pin": 1,
+            "mode": "OUTPUT"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "simulation",
+    "events": [
+      {
+        "time_init": 0,
+        "time_end": 10,
+        "component": "Válvula 1",
+        "state": 2
+      },
+      {
+        "time_init": 10,
+        "time_end": 20,
+        "component": "Válvula 1",
+        "state": 0
+      },
+      {
+        "time_init": 20,
+        "time_end": 30,
+        "component": "Válvula 1",
+        "state": 2
+      },
+      {
+        "time_init": 30,
+        "time_end": 40,
+        "component": "Válvula 1",
+        "state": 0
+      }
+    ]
+  }
+]

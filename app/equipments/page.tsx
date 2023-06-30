@@ -1,13 +1,9 @@
 import { EquipmentView } from '@/components/EquipmentView'
-import { BaseEquipment, Equipment } from '@/config/interfaces';
+import { BaseEquipment, Equipment, ReturnFetchEquipments } from '@/config/interfaces';
 import axios from 'axios';
 import { NextPage } from 'next'
 import { API, LIMIT_EQUIPMENT_QUERY } from '@/constants';
 
-interface ReturnFetchEquipments {
-  equipments: Equipment[] | undefined;
-  numberTotalEquipments: number | undefined;
-}
 
 async function fetchEquipments(): Promise<ReturnFetchEquipments> {
   const URL = `${API.EQUIPMENT_PAGINATED}?page=1&limit=${LIMIT_EQUIPMENT_QUERY}`;
@@ -32,10 +28,11 @@ const Page: NextPage = async () => {
   const { equipments, numberTotalEquipments } = data;
 
   return <>
+
     <EquipmentView
-      equipments={equipments!}
-      baseEquipments={baseEquipments}
-      numberTotalEquipments={numberTotalEquipments!}
+      equipmentsAux={equipments!}
+      baseEquipmentsAux={baseEquipments}
+      numberTotalEquipmentsAux={numberTotalEquipments!}
     />
   </>
 }

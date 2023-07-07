@@ -7,6 +7,7 @@ import { SideBar } from "./Sidebar";
 import { PageLoading } from "./PageLoading";
 import { CustomCloseButton } from "./common";
 import { ExecutorView } from "./ExecutorView";
+import { LoginForm } from "./LoginForm";
 export {
   LoadEquipmentsForm,
   ShowEquipmentsTable,
@@ -16,5 +17,6 @@ export {
   SideBar,
   PageLoading,
   CustomCloseButton,
-  ExecutorView
+  ExecutorView,
+  LoginForm
 };

@@ -20,6 +20,12 @@ async function getSimulations(): Promise<Simulation[]> {
 
 const SimulationsPage: NextPage = async () => {
   const equipments: Equipment[] = await fetchEquipments();
+  equipments.forEach(equipment => {
+    equipment.composeComponents.forEach(component => {
+      component.events = [];
+    })
+  })
+
   const simulations: Simulation[] = await getSimulations();
 
   return <>

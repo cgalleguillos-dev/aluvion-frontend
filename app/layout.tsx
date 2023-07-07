@@ -1,8 +1,10 @@
+'use client';
 import { EquipmentContextProvider } from '@/context/EquipmentContext'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { SideBar } from '@/components'
 import { AuthContextProvider } from '@/context/AuthContext'
+import { usePathname } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,6 +18,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const pathname = usePathname();
+  const showSideBar = pathname !== '/auth/login' && pathname !== '/auth/signup';
   return (
     <html lang="en"
       className=""
@@ -24,7 +28,7 @@ export default function RootLayout({
       <body className="flex flex-row min-h-screen font-sans antialiased text-gray-900 bg-gray-100 min-w-screen dark:bg-gray-900 dark:text-gray-100" >
         <AuthContextProvider>
           <EquipmentContextProvider>
-            <SideBar />
+            {showSideBar && <SideBar />}
             {children}
           </EquipmentContextProvider>
         </AuthContextProvider>

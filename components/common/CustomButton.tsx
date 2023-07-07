@@ -4,7 +4,7 @@ interface Props {
   description: string;
   onClick: () => void;
   color?: string;
-  enabled?: boolean;
+  enabled: boolean;
 };
 
 const CustomButton: React.FC<Props> = ({

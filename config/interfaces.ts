@@ -37,6 +37,7 @@ export interface TypeComponent {
 }
 export interface ComposeComponent extends BaseComponent {
   components: Component[];
+  events?: IEventValves[];
 }
 
 export interface Pin {
@@ -61,7 +62,8 @@ export interface IEventValves {
   valveId: string;
   valve: string;
   intensity: string;
-  time: string;
+  startTime: string;
+  endTime: string;
 }
 
 interface ResponseComposeComponent {
@@ -80,7 +82,6 @@ export interface Event {
   intensity: number;
   time: number;
 }
-
 
 export interface Simulation {
   id: string;

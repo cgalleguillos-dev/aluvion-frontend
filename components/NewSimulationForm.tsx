@@ -7,6 +7,7 @@ import { ComposeComponent, Equipment } from '@/config/interfaces';
 import { IEventValves } from '@/config/interfaces';
 import { ValveTable } from './ValveTable';
 import { ValveTimeLine } from './ValveTimeLine';
+import { ValvesHeader } from './ValvesHeader';
 
 
 interface SimulationData {
@@ -15,6 +16,8 @@ interface SimulationData {
   date?: Date;
   events: IEventValves[];
 }
+
+
 
 interface Props {
   equipments: Equipment[];
@@ -25,26 +28,61 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
   const [equipmentSelectedId, setEquipmentSelectedId] = useState<string>("")
   const [equipmentSelected, setEquipmentSelected] = useState<Equipment>();
   const [valvesSelected, setValvesSelected] = useState<ComposeComponent[]>([]);
-  const [valves, setValves] = useState<IEventValves[]>([{ valveId: '', valve: '', intensity: '0', time: '0' }]);
+  const [valveSelected, setValveSelected] = useState<ComposeComponent>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const { showPopup, handleShowPopup, handleHidePopup } = useShowPopup();
   const { saveSimulation, loading } = useSimulationFetch();
-
-  const getFilteredValvesByComponent = (composeComponent: ComposeComponent) => {
-    const filteredValves = [...valves].filter((valve) => composeComponent.id === valve.valveId);
-    return filteredValves;
-  }
 
   const handleIsEditing = () => {
     setIsEditing(!isEditing);
   }
 
+  const addEmptyEventToValve = () => {
+    const valveCopy = { ...valveSelected! };
+    const lastEvent = valveCopy.events![valveCopy.events!.length - 1];
+    const newStartTime = lastEvent ? lastEvent.endTime : '0';
+    valveCopy.events?.push({
+      valveId: valveSelected!.id,
+      valve: valveSelected!.description,
+      intensity: '0',
+      startTime: newStartTime,
+      endTime: newStartTime
+    });
+    setValveSelected(valveCopy);
+  }
+
+  const removeLastEventFromValve = () => {
+    if (valveSelected?.events?.length === 0) return;
+    const valveCopy = { ...valveSelected! };
+    valveCopy.events?.pop();
+    setValveSelected(valveCopy);
+  }
+
+  const removeEventWithIndexFromValve = (index: number) => {
+    const valveCopy = { ...valveSelected! };
+    valveCopy.events?.splice(index, 1);
+    setValveSelected(valveCopy);
+  }
+
+  const updateValveEvent = (index: number, field: keyof IEventValves, value: string) => {
+    const valveCopy = { ...valveSelected! };
+    valveCopy.events![index][field] = value;
+    setValveSelected(valveCopy);
+  };
+
   const handleSaveSimulation = () => {
+    const events: IEventValves[] = [];
+    valvesSelected.forEach((valve) => {
+      if (valve.events !== undefined) {
+        events.push(...valve.events);
+      }
+    });
     const simulationData: SimulationData = {
       description,
       equipmentId: equipmentSelectedId,
-      events: valves
+      events: events
     }
+    console.log(simulationData);
     saveSimulation(simulationData);
     handleHidePopup();
   }
@@ -54,7 +92,7 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
     if (e.target.value === '') {
       setEquipmentSelectedId('');
       setEquipmentSelected(undefined);
-      restartValves();
+      // restartValves();
       return;
     }
     const selectedId = e.target.value;
@@ -62,51 +100,23 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
     setEquipmentSelected(equipments.find((equipment) => equipment.id === selectedId)!);
     if (equipmentSelected?.composeComponents.length === 0) return;
     setValvesSelected(equipments.find((equipment) => equipment.id === selectedId)!.composeComponents);
-    restartValves();
+    // restartValves();
   }
 
-  const updateValveTable = (index: number, field: keyof IEventValves, value: string) => {
-    const newValues = [...valves];
-    newValues[index][field] = value;
-    setValves(newValues);
-  };
-
-  const addRow = () => {
-    setValves([...valves, { valveId: '', valve: '', intensity: '0', time: '0' }]);
-  }
-
-  const removeRow = (index: number) => {
-    const newValues = [...valves];
-    newValues.splice(index, 1);
-    setValves(newValues);
-  }
-
-  const removeLastRow = () => {
-    const newValues = [...valves];
-    newValues.pop();
-    setValves(newValues);
-  }
-
-  const restartValves = () => {
-    setValves([{ valveId: '', valve: '', intensity: '0', time: '0' }]);
+  const enableActionButton = () => {
+    return valveSelected !== undefined;
   }
 
   const enableAddButton = () => {
-    //el boton sepuede habilitar si, hay descripción, y si hay al menos una válvula seleccionada y con intensidad y tiempo
-    if (description === '') return false;
-    if (equipmentSelected?.composeComponents.length === 0) return false;
-    if (valves.length === 0) return false;
-    const valvesSelected = valves.filter((valve) => valve.valve !== '');
-    if (valvesSelected.length === 0) return false;
-    const valvesWithTime = valvesSelected.filter((valve) => valve.time !== '0');
-    if (valvesWithTime.length === 0) return false;
-    return true;
+    return valveSelected !== undefined && valveSelected.events !== undefined;
   }
+
   return (
     <>
       <CustomButton
         description="Agregar Simulación"
         onClick={handleShowPopup}
+        enabled={true}
       />
       {
         showPopup && (
@@ -154,13 +164,21 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
                       {
                         equipmentSelected && (
                           <div className="">
-                            <ValveTable
-                              valvesSelected={valvesSelected}
-                              valves={valves}
-                              isEditing={isEditing}
-                              removeRow={removeRow}
-                              updateValveTable={updateValveTable}
+                            <ValvesHeader
+                              valves={valvesSelected}
+                              selectedValve={valveSelected!}
+                              setValveSelected={setValveSelected}
                             />
+                            {
+                              valveSelected && (
+                                <ValveTable
+                                  valveSelected={valveSelected!}
+                                  isEditing={isEditing}
+                                  updateValveEvent={updateValveEvent}
+                                  removeEventWithIndexFromValve={removeEventWithIndexFromValve}
+                                />
+                              )
+                            }
                           </div>
                         )
                       }
@@ -169,6 +187,7 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
                           description="Cerrar"
                           onClick={handleHidePopup}
                           color="red"
+                          enabled={true}
                         />
                         <CustomButton
                           description="Agregar"
@@ -179,21 +198,21 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
                         <div className="space-x-4">
                           <CustomButton
                             description="+"
-                            onClick={addRow}
+                            onClick={addEmptyEventToValve}
                             color="blue"
-                            enabled={true}
+                            enabled={enableActionButton()}
                           />
                           <CustomButton
                             description='-'
-                            onClick={removeLastRow}
+                            onClick={removeLastEventFromValve}
                             color="blue"
-                            enabled={true}
+                            enabled={enableActionButton()}
                           />
                           <CustomButton
                             description={!isEditing ? "Editar" : "Guardar"}
                             onClick={handleIsEditing}
                             color="blue"
-                            enabled={true}
+                            enabled={enableActionButton()}
                           />
                         </div>
                       </div>
@@ -202,18 +221,13 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
                 </div>
               </div>
               {
-                equipmentSelected && (<>
+                equipmentSelected && valveSelected && (<>
                   <div className="flex flex-col items-center justify-center w-1/4 h-full p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:mx-auto">
                     {
-                      equipmentSelected.composeComponents.map((composeComponent, index) => (
-
-                        <ValveTimeLine
-                          key={index}
-                          valves={getFilteredValvesByComponent(composeComponent)}
-                          title={composeComponent.description + '-' + index}
-                        />
-                      )
-                      )
+                      <ValveTimeLine
+                        valves={valveSelected.events!}
+                        title={valveSelected.description}
+                      />
                     }
                   </div>
                 </>)

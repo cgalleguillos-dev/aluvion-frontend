@@ -14,7 +14,7 @@ const CustomButton: React.FC<Props> = ({
   enabled = true
 }) => {
 
-  const className = `bg-blue-500 hover:bg-${color}-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline
+  const className = `bg-[#db6e59] hover:bg-${color}-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline
     ${enabled ? '' : 'opacity-50 cursor-not-allowed'}
   `
 

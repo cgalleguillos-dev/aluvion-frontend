@@ -1,6 +1,6 @@
 import { BaseEquipment } from "@/config/interfaces";
 import axios from "axios";
-import { ShowEquipmentsTable } from "./common";
+import { ShowBaseEquipments } from "./common";
 
 
 async function fetchBaseEquipments(): Promise<BaseEquipment[]> {
@@ -15,7 +15,7 @@ const BaseEquipmentView: React.FC = async () => {
 
   return (
     <>
-      <ShowEquipmentsTable equipments={equipments} />
+      <ShowBaseEquipments equipments={equipments} />
     </>
   );
 };

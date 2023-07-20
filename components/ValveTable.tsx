@@ -82,7 +82,7 @@ export const ValveTable: React.FC<Props> = ({ valveSelected, isEditing, updateVa
                       type="number"
                       placeholder="Tiempo"
                       min="0"
-                      className="w-24 px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      className="w-24 px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 "
                       value={row.startTime}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         updateValveEvent(index, 'startTime', e.target.value)
@@ -94,7 +94,7 @@ export const ValveTable: React.FC<Props> = ({ valveSelected, isEditing, updateVa
                       type="number"
                       placeholder="Tiempo"
                       min={row.startTime}
-                      className="w-24 px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      className="w-24 px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                       value={row.endTime}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         updateValveEvent(index, 'endTime', e.target.value)

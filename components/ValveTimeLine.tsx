@@ -1,6 +1,6 @@
 'use client';
 
-import { IEventValves } from '@/config/interfaces'
+import { Event, IEventValves } from '@/config/interfaces'
 import React from 'react'
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Legend, Tooltip } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -8,7 +8,7 @@ import { Line } from 'react-chartjs-2';
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Legend, Tooltip);
 
 interface Props {
-  valves: IEventValves[];
+  valves: IEventValves[] | Event[];
   title: string;
 }
 

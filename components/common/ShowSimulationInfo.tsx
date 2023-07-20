@@ -1,8 +1,11 @@
-import { Simulation } from '@/config/interfaces'
+'use client';
+import { ResponseComposeComponent, Simulation } from '@/config/interfaces'
 import React from 'react'
-import CustomButton from './CustomButton';
 import Loading from './Loading';
 import { CustomCloseButton } from './CustomCloseButton';
+import { ValveTableView } from '../ValveTableView';
+import { ValvesHeaderView } from '../ValvesHeaderView';
+import { ValveTimeLine } from '../ValveTimeLine';
 
 interface Props {
   simulation: Simulation;
@@ -15,53 +18,81 @@ export const ShowSimulationInfo: React.FC<Props> = ({
   handleHideForm,
   loading
 }) => {
+  const [valveSelected, setValveSelected] = React.useState<ResponseComposeComponent>();
+  //filtra los eventos de la simulación con los composeComponents,comparando el id del componente con el id del composeComponent del evento, y almacena cada evento en el composeComponent correspondiente
+  const filterEvents = () => {
+    //inicializa los eventos de cada composeComponent
+    simulation.equipment.composeComponents.forEach(component => {
+      component.events = [];
+    })
+
+    simulation.eventList.forEach(event => {
+      simulation.equipment.composeComponents.forEach(component => {
+        if (event.composeComponent.id === component.id) {
+
+          component.events?.push(event);
+        }
+      })
+    });
+
+  }
+
+  React.useEffect(() => {
+    filterEvents();
+  }, [])
+
   return (
-    <div className="fixed inset-0 z-10 overflow-y-auto">
-      <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <div className="">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-400">{simulation?.description}</h3>
-                  <CustomCloseButton handleHidePopup={handleHideForm} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center w-screen h-screen bg-black bg-opacity-50">
+      <div className="flex flex-row w-3/4 p-4 mt-4 bg-white rounded-lg h-3/4 sm:mx-auto">
+        <div className="w-3/4 h-full overflow-x-auto">
+          <div className="inline-block h-full min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="relative">
+              <CustomCloseButton handleHidePopup={handleHideForm} />
+            </div>
+            <div className="h-full overflow-hidden border-b border-gray-200 shadow dark:border-gray-700 sm:rounded-lg">
+              <div className="p-4 space-y-4">
+                <div>
+                  <label
+                    htmlFor="equipment"
+                    className="block text-sm font-medium text-gray-700 dark:text-white"
+                  >
+                    Equipo
+                  </label>
+                  <div className="block w-full px-3 py-2 mt-1 text-sm text-gray-900 bg-gray-400 bg-opacity-25 border-gray-300 rounded-lg dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    {simulation?.equipment.description}
+                  </div>
+                  <div className="">
+                    <ValvesHeaderView
+                      valves={simulation?.equipment.composeComponents}
+                      selectedValve={valveSelected!}
+                      setValveSelected={setValveSelected}
+                    />
+                    {
+                      valveSelected && (
+                        <ValveTableView
+                          valveSelected={valveSelected!}
+                        />
+                      )
+                    }
+                  </div>
                 </div>
-                {/* <div className="mt-2">
-                <table className='min-w-full divide-y divide-gray-200 dark:divide-gray-700'>
-                  <thead className="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                      <th
-                        scope='col'
-                        className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
-                        Descripción
-                      </th>
-                      <th
-                        scope='col'
-                        className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
-                        Arduino
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
-                    {equipment?.composeComponents.map((component, index) => (
-                      <tr key={index}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 dark:text-gray-400">{component.description}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 dark:text-gray-400">{component.arduino.description}</div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div> */}
               </div>
             </div>
           </div>
         </div>
+        {
+          valveSelected && (
+
+            <div className="flex flex-col items-center justify-center w-1/4 h-full p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:mx-auto">
+              {
+                <ValveTimeLine
+                  valves={valveSelected.events!}
+                  title={valveSelected.description}
+                />
+              }
+            </div>
+          )
+        }
       </div>
       {
         loading && <Loading />

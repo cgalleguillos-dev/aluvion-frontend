@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react'
-import { CustomButton } from './common'
+import { CustomButton, CustomCloseButton } from './common'
 import { useShowPopup, useSimulationFetch } from '@/hooks';
 import Loading from './common/Loading';
 import { ComposeComponent, Equipment } from '@/config/interfaces';
@@ -8,7 +8,7 @@ import { IEventValves } from '@/config/interfaces';
 import { ValveTable } from './ValveTable';
 import { ValveTimeLine } from './ValveTimeLine';
 import { ValvesHeader } from './ValvesHeader';
-
+import { useRouter } from 'next/navigation';
 
 interface SimulationData {
   description: string;
@@ -32,7 +32,7 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const { showPopup, handleShowPopup, handleHidePopup } = useShowPopup();
   const { saveSimulation, loading } = useSimulationFetch();
-
+  const router = useRouter();
   const handleIsEditing = () => {
     setIsEditing(!isEditing);
   }
@@ -70,7 +70,7 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
     setValveSelected(valveCopy);
   };
 
-  const handleSaveSimulation = () => {
+  const handleSaveSimulation = async () => {
     const events: IEventValves[] = [];
     valvesSelected.forEach((valve) => {
       if (valve.events !== undefined) {
@@ -82,8 +82,10 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
       equipmentId: equipmentSelectedId,
       events: events
     }
-    console.log(simulationData);
-    saveSimulation(simulationData);
+    const newSim = await saveSimulation(simulationData);
+
+    //refresh
+    router.refresh();
     handleHidePopup();
   }
 
@@ -120,12 +122,20 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
       />
       {
         showPopup && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center w-screen h-screen bg-black bg-opacity-50">
+          <div className="fixed inset-0 flex items-center justify-center w-screen h-screen bg-black bg-opacity-50">
             <div className="flex flex-row w-3/4 p-4 mt-4 bg-white rounded-lg h-3/4 sm:mx-auto">
               <div className="w-3/4 h-full overflow-x-auto">
                 <div className="inline-block h-full min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                  <div className="relative">
+                    <CustomCloseButton handleHidePopup={handleHidePopup} />
+                  </div>
                   <div className="h-full overflow-hidden border-b border-gray-200 shadow dark:border-gray-700 sm:rounded-lg">
                     <div className="p-4 space-y-4">
+                      <div className="flex flex-col ">
+                        <h4 className="text-xl font-medium leading-6 text-gray-900 dark:text-gray-400"
+                        >Añadir nueva simulación</h4>
+                      </div>
+
                       <div>
                         <label
                           htmlFor="description"
@@ -183,12 +193,6 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
                         )
                       }
                       <div className="flex flex-row justify-between">
-                        <CustomButton
-                          description="Cerrar"
-                          onClick={handleHidePopup}
-                          color="red"
-                          enabled={true}
-                        />
                         <CustomButton
                           description="Agregar"
                           onClick={handleSaveSimulation}

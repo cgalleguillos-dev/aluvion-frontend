@@ -1,8 +1,10 @@
+'use client';
 import { Equipment } from '@/config/interfaces';
 import React from 'react'
 import CustomButton from './CustomButton';
 import Loading from './Loading';
 import { CustomCloseButton } from './CustomCloseButton';
+import Link from 'next/link';
 
 
 interface Props {
@@ -28,9 +30,24 @@ export const ShowEquipmentInfo: React.FC<Props> = ({
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <div className="">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-400">{equipment?.description}</h3>
+                  <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-400"
+                  >{equipment?.description}</h3>
                   <CustomCloseButton handleHidePopup={handleHidePopup} />
                 </div>
+                <div className="flex flex-row flex-wrap items-center mt-2">
+                  <h3 className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-400">Equipo Base utilizado: </h3>
+                  <div className="w-2"></div>
+                  <Link href={`/auth/base-equipments/${equipment?.baseEquipment?.id}`}>
+                    <p className="text-sm text-blue-500 dark:text-blue-400">
+                      {equipment?.baseEquipment?.description}
+                    </p>
+                  </Link>
+                </div>
+                <div className="flex flex-row flex-wrap items-center mt-2">
+                  <h3 className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-400">Cantidad de Válvulas: {
+                    equipment?.composeComponents.filter((component) => component !== null).length}</h3>
+                </div>
+
                 <div className="mt-2">
                   <table className='min-w-full divide-y divide-gray-200 dark:divide-gray-700'>
                     <thead className="bg-gray-50 dark:bg-gray-800">
@@ -68,6 +85,7 @@ export const ShowEquipmentInfo: React.FC<Props> = ({
             <CustomButton
               description="Desactivar"
               onClick={handleDeleteEquipment}
+              enabled={true}
             />
           </div>
         </div>

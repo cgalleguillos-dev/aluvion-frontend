@@ -8,6 +8,7 @@ import { PageLoading } from "./PageLoading";
 import { CustomCloseButton } from "./common";
 import { ExecutorView } from "./ExecutorView";
 import { LoginForm } from "./LoginForm";
+import { BaseEquipmentInfo } from "./BaseEquipmentInfo";
 export {
   LoadEquipmentsForm,
   ShowEquipmentsTable,
@@ -18,5 +19,6 @@ export {
   PageLoading,
   CustomCloseButton,
   ExecutorView,
-  LoginForm
+  LoginForm,
+  BaseEquipmentInfo
 };

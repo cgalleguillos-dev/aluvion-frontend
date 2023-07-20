@@ -1,59 +1,49 @@
-'use client';
-
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
-
-
-
-type AuthToken = {
-  token: string;
-  refreshToken?: string;
-}
+'use client'
+import { useRouter, usePathname } from "next/navigation";
+import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
 
 type AuthContextType = {
-  login: (authToken: AuthToken) => void;
-  logout: () => void;
-  isLoggedIn: boolean;
-  authToken: string | null;
-}
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+};
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-const AUTH_TOKEN_KEY = 'authToken';
-
 interface Props {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const AuthContextProvider: React.FC<Props> = ({ children }) => {
-  const [authToken, setAuthToken] = useState<string | null>(null);
+  let isAuth;
+  if (typeof window !== 'undefined') {
+    isAuth = localStorage.getItem('token') ? true : false;
+  }
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const login = useCallback((authToken: AuthToken) => {
-    window.localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(authToken.token));
-    setAuthToken(authToken.token);
-  }, []);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(isAuth ? true : false);
+  useEffect(() => {
+    if (!isAuthenticated
+      && pathname !== '/auth/login'
+    ) {
+      localStorage.removeItem('token');
+      router.push('/auth/login');
+    }
+    else if (isAuthenticated && pathname === '/auth/login') {
+      router.push('/auth/base-equipments')
+    }
+  }, [isAuthenticated]);
 
-  const logout = useCallback(() => {
-    window.localStorage.removeItem(AUTH_TOKEN_KEY);
-    setAuthToken(null);
-  }, []);
-
-  const value = useMemo(() => ({
-    login,
-    logout,
-    authToken,
-    isLoggedIn: authToken !== null
-  }), [authToken, login, logout]);
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 };
 
 export const useAuthContext = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuthContext must be used within an AuthContextProvider');
+    throw new Error("useAuthContext must be used within a AuthProvider");
   }
   return context;
-};
+}

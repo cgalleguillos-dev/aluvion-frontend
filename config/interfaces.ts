@@ -4,12 +4,6 @@ export interface BaseEquipment {
   arduinos: Arduino[];
 }
 
-export interface Equipment {
-  id: string;
-  description: string;
-  isActived: boolean;
-  composeComponents: ComposeComponent[];
-}
 
 
 
@@ -66,23 +60,34 @@ export interface IEventValves {
   endTime: string;
 }
 
-interface ResponseComposeComponent {
+export interface ResponseComposeComponent {
   id: string;
   description: string;
+  components: Component[];
+  events: Event[];
 }
 
 interface ResponseEquipment {
   id: string;
   description: string;
   isActived: boolean;
+  composeComponents: ResponseComposeComponent[];
 }
 export interface Event {
   id: string;
   composeComponent: ResponseComposeComponent;
-  intensity: number;
-  time: number;
+  intensity: string;
+  startTime: string;
+  endTime: string;
 }
 
+export interface Equipment {
+  id: string;
+  description: string;
+  isActived: boolean;
+  composeComponents: ComposeComponent[];
+  baseEquipment: BaseEquipment;
+}
 export interface Simulation {
   id: string;
   date: Date;

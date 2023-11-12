@@ -69,7 +69,7 @@ const NewEquipmentForm: React.FC = () => {
           <div className="flex flex-col p-4 mt-4 bg-white rounded-lg sm:w-1/2 sm:mx-auto">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <div className="relative">
+                <div className="flex flex-row justify-end">
                   <CustomCloseButton handleHidePopup={handleHidePopup} />
                 </div>
                 <form className="p-4 space-y-4">

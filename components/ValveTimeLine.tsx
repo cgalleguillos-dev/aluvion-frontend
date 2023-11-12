@@ -19,7 +19,7 @@ export const ValveTimeLine: React.FC<Props> = ({ valves, title }) => {
     labels: valves.map((valve) => valve.startTime),
     datasets: [
       {
-        label: 'Simulación',
+        label: 'Intensidad',
         data: valves.map((valve) => valve.intensity),
         fill: true,
         backgroundColor: 'rgb(255, 99, 132)',

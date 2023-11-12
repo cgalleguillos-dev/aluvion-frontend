@@ -56,7 +56,7 @@ export const SimulationView: React.FC<Props> = ({ simulations, equipments }) => 
           <div className="flex flex-row justify-end ">
           </div>
           {
-            showPopup && (
+            showPopup && selectedSimulation && (
               <ShowSimulationInfo
                 simulation={selectedSimulation!}
                 handleHideForm={handleHidePopup}

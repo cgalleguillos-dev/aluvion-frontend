@@ -27,12 +27,14 @@ export const ShowEquipmentInfo: React.FC<Props> = ({
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
         <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
+            <div className="flex flex-row justify-end">
+              <CustomCloseButton handleHidePopup={handleHidePopup} />
+            </div>
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <div className="">
                   <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-400"
                   >{equipment?.description}</h3>
-                  <CustomCloseButton handleHidePopup={handleHidePopup} />
                 </div>
                 <div className="flex flex-row flex-wrap items-center mt-2">
                   <h3 className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-400">Equipo Base utilizado: </h3>

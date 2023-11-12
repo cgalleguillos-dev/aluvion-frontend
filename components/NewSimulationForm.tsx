@@ -126,12 +126,12 @@ export const NewSimulationForm: React.FC<Props> = ({ equipments }) => {
             <div className="flex flex-row w-3/4 p-4 mt-4 bg-white rounded-lg h-3/4 sm:mx-auto">
               <div className="w-3/4 h-full overflow-x-auto">
                 <div className="inline-block h-full min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                  <div className="relative">
-                    <CustomCloseButton handleHidePopup={handleHidePopup} />
-                  </div>
                   <div className="h-full overflow-hidden border-b border-gray-200 shadow dark:border-gray-700 sm:rounded-lg">
+                    <div className="flex flex-row justify-end">
+                      <CustomCloseButton handleHidePopup={handleHidePopup} />
+                    </div>
                     <div className="p-4 space-y-4">
-                      <div className="flex flex-col ">
+                      <div className="flex flex-row justify-between">
                         <h4 className="text-xl font-medium leading-6 text-gray-900 dark:text-gray-400"
                         >Añadir nueva simulación</h4>
                       </div>

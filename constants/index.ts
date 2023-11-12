@@ -25,7 +25,7 @@ export const SIDE_BAR: ISideBar[] = [
   },
   {
     href: "/equipments",
-    label: "Equipos",
+    label: "Equipos Instancias",
     subLabel: "Equipos"
   },
   {
@@ -38,5 +38,10 @@ export const SIDE_BAR: ISideBar[] = [
     label: "Ejecutor",
     subLabel: "Simulaciones"
   },
+  {
+    href: "/ejecucion-manual",
+    label: "Ejecución Manual",
+    subLabel: "Simulaciones"
+  }
 
 ]

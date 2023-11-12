@@ -10,6 +10,12 @@ interface SimulationData {
   events: IEventValves[];
 }
 
+interface ManualSimulationData {
+  idArduino: string;
+  idComposeComponent: string;
+  position: number;
+}
+
 const useSimulationFetch = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,13 +59,26 @@ const useSimulationFetch = () => {
       setLoading(false);
     }
   }
+  const executeManualSimulation = async (manualSimulationData: ManualSimulationData): Promise<OutputExecution | undefined> => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${API.SIMULATION}/manual-execute`, manualSimulationData);
+      const output = response.data as OutputExecution;
+      setLoading(false)
+      return output;
+    } catch (error) {
+      setError('Ha ocurrido un error al ejecutar la simulación');
+      setLoading(false);
+    }
+  }
 
   return {
     loading,
     error,
     saveSimulation,
     getSimulations,
-    executeSimulation
+    executeSimulation,
+    executeManualSimulation
   }
 };
 

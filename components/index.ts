@@ -9,6 +9,8 @@ import { CustomCloseButton } from "./common";
 import { ExecutorView } from "./ExecutorView";
 import { LoginForm } from "./LoginForm";
 import { BaseEquipmentInfo } from "./BaseEquipmentInfo";
+import { ManualExecutionView } from "./ManualExecutionView";
+import { EquipmentsHeaderView } from "./EquipmentsHeaderView";
 export {
   LoadEquipmentsForm,
   ShowEquipmentsTable,
@@ -20,5 +22,7 @@ export {
   CustomCloseButton,
   ExecutorView,
   LoginForm,
-  BaseEquipmentInfo
+  BaseEquipmentInfo,
+  ManualExecutionView,
+  EquipmentsHeaderView
 };
